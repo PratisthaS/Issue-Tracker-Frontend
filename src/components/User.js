@@ -97,6 +97,7 @@ export default class User extends React.Component {
                 <AppBar color="primary" position="static">
                     <h1>User Tracker</h1>
                 </AppBar>
+                <h3>Create Users</h3>
                 <br/>
                 <form onSubmit={this.handleSubmit} >
                     <div className="form-group">

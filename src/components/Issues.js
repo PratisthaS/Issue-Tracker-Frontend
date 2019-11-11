@@ -126,6 +126,9 @@ export default class Issues extends React.Component {
 
       return (
         <div>
+            <AppBar color="primary" position="static">
+                <h1>Issue Tracker</h1>
+            </AppBar>
           <h3>Create Issues</h3>
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">

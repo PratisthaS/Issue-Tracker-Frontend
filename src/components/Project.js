@@ -105,6 +105,7 @@ const columns = [
           <AppBar color="primary" position="static">
           <h1>Issue Tracker</h1>
         </AppBar>
+          <h3>Create Projects</h3>
           <br/>
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">

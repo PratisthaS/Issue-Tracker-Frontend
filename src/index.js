@@ -7,6 +7,7 @@ import './index.css'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Project from './components/Project'
 import Issues from './components/Issues'
+import User from './components/User'
 
 const routing = (
     <Router>
@@ -21,12 +22,16 @@ const routing = (
         <li>
           <Link to="/issue">Issues</Link>
         </li>
+        <li>
+          <Link to="/user">Users</Link>
+        </li>
       </ul>
 
       <div>
         <Route exact path="/" component={App} />
         <Route path="/project" component={Project} />
         <Route path="/issue" component={Issues} />
+          <Route path="/user" component={User} />
 
       </div>
     </Router>

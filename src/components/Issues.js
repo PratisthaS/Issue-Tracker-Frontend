@@ -24,12 +24,24 @@ export default class Issues extends React.Component {
       priorityLevel:'High',
       dueDate:'',
       project:'',
-      assignee:''
+      assignee:'',
+      issueList: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.issueType = ["Bug","Task"]
     this.priorityLevel = ["High","Low","Medium"]
+
+
+  }
+
+  fetchIssues(){
+    axios.get("http://localhost:8080/issue").then(res =>{
+      debugger
+      this.setState({
+        issueList:res.data
+      })
+    })
 
 
   }
@@ -42,6 +54,7 @@ export default class Issues extends React.Component {
     this.setState({
       [name]: value
     });
+    console.log('Change detected. State updated' + name + ' = ' + value);
   }
 
   handleSubmit = () => {
@@ -55,11 +68,13 @@ export default class Issues extends React.Component {
       assignee: this.state.assignee
     };
 
-    axios.post('http://localhost:8080/issues', issue
+    axios.post('http://localhost:8080/issue', issue
     )
     .then(res => {
-      alert('Issue added successfully!')
+      alert('Issue added successfully!');
+      this.fetchIssues();
     })
+
   };
 
   componenDidMount(){
@@ -70,7 +85,44 @@ export default class Issues extends React.Component {
   
     render() {
 
-
+      const data = this.state.projectList;
+      const columns = [
+        {
+          name: 'Name',
+          selector: 'name',
+          right: true,
+        },
+        {
+          name: 'Description',
+          selector: 'description',
+          right: true,
+        },
+        {
+          name: 'Type',
+          selector: 'issueType',
+          right: true,
+        },
+        {
+          name: 'PriorityLevel',
+          selector: 'priorityLevel',
+          right: true,
+        },
+        {
+          name: 'DueDate',
+          selector: 'dueDate',
+          right: true,
+        },
+        {
+          name: 'Project',
+          selector: 'project',
+          right: true,
+        },
+        {
+          name: 'Assignee',
+          selector: 'assignee',
+          right: true,
+        },
+      ];
 
       return (
         <div>
@@ -100,6 +152,12 @@ export default class Issues extends React.Component {
             </div>
             <input type="submit" value="Submit" className="btn btn-primary" />
           </form>
+
+          <DataTable
+              title="List of Issues"
+              columns={columns}
+              data={data}
+          />
           </div>
 
 

@@ -21,7 +21,7 @@ export default class Issues extends React.Component {
       name: '',
       description: '',
       type:'Bug',
-      priorityLevel:'High',
+      priorityLevel:'HIGH',
       dueDate:'',
       project:'',
       assignee:''
@@ -29,7 +29,8 @@ export default class Issues extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.issueType = ["Bug","Task"]
-    this.priorityLevel = ["High","Low","Medium"]
+    this.priorityLevel = ["HIGH","LOW","MEDIUM"]
+    this.handleSubmit = this.handleSubmit.bind(this);
 
 
   }
@@ -44,8 +45,7 @@ export default class Issues extends React.Component {
     });
   }
 
-  handleSubmit = () => {
-    debugger;
+  handleSubmit (event) {
     const issue = {
       name: this.state.name,
       type: this.state.type,
@@ -54,10 +54,15 @@ export default class Issues extends React.Component {
       dueDate: this.state.dueDate,
       assignee: this.state.assignee
     };
-
-    axios.post('http://localhost:8080/issues', issue
-    )
+    debugger
+    axios.post('http://localhost:8080/issues', {name: this.state.name,
+    type: this.state.type,
+    description: this.state.description,
+    priorityLevel: this.state.priorityLevel,
+    dueDate: this.state.dueDate,
+    assignee: this.state.assignee})
     .then(res => {
+      debugger
       alert('Issue added successfully!')
     })
   };

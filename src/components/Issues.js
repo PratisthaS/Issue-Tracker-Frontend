@@ -24,13 +24,25 @@ export default class Issues extends React.Component {
       priorityLevel:'HIGH',
       dueDate:'',
       project:'',
-      assignee:''
+      assignee:'',
+      issueList: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.issueType = ["Bug","Task"]
     this.priorityLevel = ["HIGH","LOW","MEDIUM"]
     this.handleSubmit = this.handleSubmit.bind(this);
+
+
+  }
+
+  fetchIssues(){
+    axios.get("http://localhost:8080/issue").then(res =>{
+      debugger
+      this.setState({
+        issueList:res.data
+      })
+    })
 
 
   }
@@ -43,6 +55,7 @@ export default class Issues extends React.Component {
     this.setState({
       [name]: value
     });
+    console.log('Change detected. State updated' + name + ' = ' + value);
   }
 
   handleSubmit (event) {
@@ -54,7 +67,6 @@ export default class Issues extends React.Component {
       dueDate: this.state.dueDate,
       assignee: this.state.assignee
     };
-    debugger
     axios.post('http://localhost:8080/issues', {name: this.state.name,
     type: this.state.type,
     description: this.state.description,
@@ -62,9 +74,9 @@ export default class Issues extends React.Component {
     dueDate: this.state.dueDate,
     assignee: this.state.assignee})
     .then(res => {
-      debugger
       alert('Issue added successfully!')
     })
+
   };
 
   componenDidMount(){
@@ -75,10 +87,50 @@ export default class Issues extends React.Component {
   
     render() {
 
-
+      const data = this.state.projectList;
+      const columns = [
+        {
+          name: 'Name',
+          selector: 'name',
+          right: true,
+        },
+        {
+          name: 'Description',
+          selector: 'description',
+          right: true,
+        },
+        {
+          name: 'Type',
+          selector: 'issueType',
+          right: true,
+        },
+        {
+          name: 'PriorityLevel',
+          selector: 'priorityLevel',
+          right: true,
+        },
+        {
+          name: 'DueDate',
+          selector: 'dueDate',
+          right: true,
+        },
+        {
+          name: 'Project',
+          selector: 'project',
+          right: true,
+        },
+        {
+          name: 'Assignee',
+          selector: 'assignee',
+          right: true,
+        },
+      ];
 
       return (
         <div>
+            <AppBar color="primary" position="static">
+                <h1>Issue Tracker</h1>
+            </AppBar>
           <h3>Create Issues</h3>
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">
@@ -105,6 +157,12 @@ export default class Issues extends React.Component {
             </div>
             <input type="submit" value="Submit" className="btn btn-primary" />
           </form>
+
+          <DataTable
+              title="List of Issues"
+              columns={columns}
+              data={data}
+          />
           </div>
 
 

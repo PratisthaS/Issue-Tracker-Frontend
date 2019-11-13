@@ -12,6 +12,7 @@ import {
 
 export default class Project extends React.Component {
 
+  //Haven't connected with backend yet.
     
     constructor(props) {
       
@@ -34,7 +35,7 @@ export default class Project extends React.Component {
     }
 
     fetchProjects(){
-      axios.get("http://localhost:8080/projects").then(res =>{
+      axios.get("http://localhost:8080/project").then(res =>{
         debugger
         this.setState({
           projectList:res.data
@@ -62,7 +63,7 @@ export default class Project extends React.Component {
         key: this.state.key,
         description: this.state.description
       };
-      axios.post('http://localhost:8080/projects', {name: this.state.name,
+      axios.post('http://localhost:8080/project', {name: this.state.name,
       key: this.state.key,
       description: this.state.description}
       )
@@ -104,6 +105,7 @@ const columns = [
           <AppBar color="primary" position="static">
           <h1>Issue Tracker</h1>
         </AppBar>
+          <h3>Create Projects</h3>
           <br/>
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">

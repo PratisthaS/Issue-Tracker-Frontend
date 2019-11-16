@@ -7,7 +7,6 @@ import './index.css'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Project from './components/Project'
 import Issues from './components/Issues'
-import Users from './components/Users'
 import User from './components/User'
 
 const routing = (
@@ -26,16 +25,12 @@ const routing = (
         <li>
           <Link to="/user">User</Link>
         </li>
-        <li>
-          <Link to="/users">Users</Link>
-        </li>
       </ul>
 
       <div>
         <Route exact path="/" component={App} />
         <Route path="/project" component={Project} />
         <Route path="/issue" component={Issues} />
-        <Route path="/users" component={Users} />
           <Route path="/user" component={User} />
 
       </div>

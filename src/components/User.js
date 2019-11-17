@@ -119,16 +119,16 @@ export default class User extends React.Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor="middleName">Middle Name: </label><br/>
-                            <input type="text" name="middleName" value={this.state.middleName} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Middle Name" />
+                            <input type="text" name="middleName" value={this.state.middleName} onChange={this.handleInputChange} className="form-control" id="middlenameInput" placeholder="Middle Name" />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="lastName">Middle Name: </label><br/>
-                            <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Last Name" />
+                            <label htmlFor="lastName">Last Name: </label><br/>
+                            <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} className="form-control" id="lastnameInput" placeholder="Last Name" />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="email">Email: </label><br/>
-                            <input type="email" name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Email" />
+                            <input type="email" name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control" id="emailInput" placeholder="Email" />
                         </div>
 
                         <div className="form-group">

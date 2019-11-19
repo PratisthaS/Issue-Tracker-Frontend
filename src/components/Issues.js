@@ -25,7 +25,9 @@ export default class Issues extends React.Component {
       dueDate:'',
       project:'',
       assignee:'',
-      issueList: []
+      issueList: [],
+      projectList: [],
+      assigneeList:[]
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -33,18 +35,33 @@ export default class Issues extends React.Component {
     this.priorityLevel = ["HIGH","LOW","MEDIUM"]
     this.handleSubmit = this.handleSubmit.bind(this);
 
+  }
 
+
+  componentDidMount(){
+    this.fetchUsers()
+    this.fetchIssues()
+    this.fetchProjects()
+  }
+
+  fetchUsers() {
+    axios.get("http://localhost:8080/users").then(res => {
+      this.setState({assigneeList: res.data})
+    })
   }
 
   fetchIssues(){
-    axios.get("http://localhost:8080/issue").then(res =>{
+    axios.get("http://localhost:8080/issues").then(res =>{
       debugger
       this.setState({
         issueList:res.data
       })
     })
-
-
+  }
+  fetchProjects(){
+    axios.get("http://localhost:8080/projects").then(res =>{
+      this.setState({projectList:res.data})
+    })
   }
 
   handleInputChange(event) {
@@ -59,35 +76,27 @@ export default class Issues extends React.Component {
   }
 
   handleSubmit (event) {
-    const issue = {
+    const issueDto = {
       name: this.state.name,
       type: this.state.type,
       description: this.state.description,
       priorityLevel: this.state.priorityLevel,
       dueDate: this.state.dueDate,
-      assignee: this.state.assignee
+      assigneeId: this.state.assignee,
+      projectId: this.state.project,
+
     };
-    axios.post('http://localhost:8080/issues', {name: this.state.name,
-    type: this.state.type,
-    description: this.state.description,
-    priorityLevel: this.state.priorityLevel,
-    dueDate: this.state.dueDate,
-    assignee: this.state.assignee})
+    axios.post('http://localhost:8080/issues', issueDto)
     .then(res => {
       alert('Issue added successfully!')
     })
 
   };
 
-  componenDidMount(){
-    
-
-  }
-
   
     render() {
 
-      const data = this.state.projectList;
+      const data = this.state.issueList;
       const columns = [
         {
           name: 'Name',
@@ -95,13 +104,13 @@ export default class Issues extends React.Component {
           right: true,
         },
         {
-          name: 'Description',
-          selector: 'description',
+          name: 'Type',
+          selector: 'issueType',
           right: true,
         },
         {
-          name: 'Type',
-          selector: 'issueType',
+          name: 'Project',
+          selector: 'project',
           right: true,
         },
         {
@@ -113,17 +122,7 @@ export default class Issues extends React.Component {
           name: 'DueDate',
           selector: 'dueDate',
           right: true,
-        },
-        {
-          name: 'Project',
-          selector: 'project',
-          right: true,
-        },
-        {
-          name: 'Assignee',
-          selector: 'assignee',
-          right: true,
-        },
+        }
       ];
 
       return (
@@ -141,6 +140,10 @@ export default class Issues extends React.Component {
               <label htmlFor="description">Description: </label><br/>
               <textarea name="description" value={this.state.description} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Description" cols="40" rows="5"></textarea>
             </div>
+            <div className="form-group">
+              <label htmlFor="duedate">Name: </label>
+              <input type="date" name="duedate" value={this.state.dueDate} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="DueDate" />
+            </div>
             
             <div className="form-group">
               <label htmlFor="type">Type: </label>
@@ -154,6 +157,20 @@ export default class Issues extends React.Component {
               <select id="priority" name="type" onChange = {event => {this.setState({priority:event.target.value})}}>
               {this.priorityLevel.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
         </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="project">Select Project: </label>
+              <select id="project" name="project" onChange = {event => {this.setState({project:event.target.value})}}>
+                {this.state.projectList.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="assignee">Select Assignee: </label>
+              <select id="assignee" name="assignee" onChange = {event => {this.setState({assignee:event.target.value})}}>
+                {this.state.assigneeList.map((item) => <option key={item.id} value={item.id}>{item.firstname}</option>)}
+              </select>
             </div>
             <input type="submit" value="Submit" className="btn btn-primary" />
           </form>

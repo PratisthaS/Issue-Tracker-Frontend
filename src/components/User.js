@@ -37,7 +37,7 @@ export default class User extends React.Component {
         this.fetchUsers()
     }
     fetchUsers(){
-        axios.get("http://localhost:8080/user").then(res =>{
+        axios.get("http://localhost:8080/users").then(res =>{
             this.setState({
                 userList:res.data
             })
@@ -118,16 +118,16 @@ export default class User extends React.Component {
                             <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="First Name" />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="middleName">Middle Name: </label><br/>
+                            <label htmlFor="middleName">Middle Name: </label>
                             <input type="text" name="middleName" value={this.state.middleName} onChange={this.handleInputChange} className="form-control" id="middlenameInput" placeholder="Middle Name" />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="lastName">Last Name: </label><br/>
+                            <label htmlFor="lastName">Last Name: </label>
                             <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} className="form-control" id="lastnameInput" placeholder="Last Name" />
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="email">Email: </label><br/>
+                            <label htmlFor="email">Email: </label>
                             <input type="email" name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control" id="emailInput" placeholder="Email" />
                         </div>
 

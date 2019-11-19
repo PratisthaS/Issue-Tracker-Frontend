@@ -26,7 +26,7 @@ export default class Project extends React.Component {
 
       };
   
-      this.handleChange = this.handleInputChange.bind(this);
+      this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -35,21 +35,18 @@ export default class Project extends React.Component {
     }
 
     fetchProjects(){
-      axios.get("http://localhost:8080/project").then(res =>{
-        debugger
+      axios.get("http://localhost:8080/projects").then(res =>{
         this.setState({
           projectList:res.data
         })
       })
-      
-
     }
     
     handleInputChange(event) {
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
       const name = target.name;
-      
+
       this.setState({
         [name]: value
       });
@@ -58,26 +55,17 @@ export default class Project extends React.Component {
   
     handleSubmit(event) {
       //alert('A form was submitted: ' + this.state.name + ' // ' + this.state.email);
-      const project = {
+      const projectDto = {
         name: this.state.name,
         key: this.state.key,
-        description: this.state.description
+        description: this.state.description,
       };
-      axios.post('http://localhost:8080/project', {name: this.state.name,
-      key: this.state.key,
-      description: this.state.description}
-      )
+      axios.post('http://localhost:8080/projects', projectDto)
       .then(res => {
-        this.setState({
-          name: '',
-        key:'',
-        description:''
-        })
-        this.fetchProjects();
         alert('Project added successfully!')
       })
 
-      event.preventDefault();
+
     }
   
     render() {
@@ -110,15 +98,15 @@ const columns = [
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">
               <label for="nameImput">Project Name: </label>
-              <input type="text" name="name" value={this.state.name} onChange={this.handleChange} className="form-control" id="nameImput" placeholder="Project Name" />
+              <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange} className="form-control" id="nameImput" placeholder="Project Name" />
             </div>
             <div className="form-group">
               <label for="keyInput">Project Key: </label>
-              <input name="key" type="text" value={this.state.key} onChange={this.handleChange} className="form-control" id="keyInput" placeholder="KEY"/>
+              <input name="key" type="text" value={this.state.key} onChange={this.handleInputChange} className="form-control" id="keyInput" placeholder="KEY"/>
             </div>
             <div className="form-group">
-              <label for="description">Project Description: </label>
-              <input name="description" type="text" value={this.state.description} onChange={this.handleChange} className="form-control" id="description" placeholder="Describe your project"/>
+              <label for="description">Project Description: </label><br/>
+              <textarea name="description" value={this.state.description} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Description" cols="40" rows="5"></textarea>
             </div>
             <input type="submit" value="Submit" className="btn btn-primary" />
           </form>

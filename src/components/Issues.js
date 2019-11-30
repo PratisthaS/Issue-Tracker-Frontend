@@ -10,6 +10,10 @@ import {
   TextField
 } from "@material-ui/core";
 
+import DatePicker from "react-datepicker";
+ 
+import "react-datepicker/dist/react-datepicker.css";
+
 export default class Issues extends React.Component {
 
   //only UI is designed for this page. Need to hookup with backend.
@@ -52,7 +56,6 @@ export default class Issues extends React.Component {
 
   fetchIssues(){
     axios.get("http://localhost:8080/issues").then(res =>{
-      debugger
       this.setState({
         issueList:res.data
       })
@@ -81,10 +84,10 @@ export default class Issues extends React.Component {
       type: this.state.type,
       description: this.state.description,
       priorityLevel: this.state.priorityLevel,
-      dueDate: this.state.dueDate,
-      assigneeId: this.state.assignee,
-      projectId: this.state.project,
-
+      dueDate: this.state.dueDate.toISOString().slice(0,10),
+      assignee: this.state.assignee,
+      project: this.state.project,
+      creator: 1 //will need to set it from session
     };
     axios.post('http://localhost:8080/issues', issueDto)
     .then(res => {
@@ -93,11 +96,31 @@ export default class Issues extends React.Component {
 
   };
 
+  handleChange = date => {
+    this.setState({
+      dueDate: date
+    });
+  };
+
+  handleButtonClick = (state) => {
+    
+    console.log('clicked');
+    console.log(state.target.id);
+
+  };
+
   
     render() {
 
       const data = this.state.issueList;
       const columns = [
+        {
+      
+          cell: (row) => <button onClick={this.handleButtonClick} id={row.id}>Action</button>,
+          ignoreRowClick: true,
+          allowOverflow: true,
+          button: true,
+        },
         {
           name: 'Name',
           selector: 'name',
@@ -141,8 +164,11 @@ export default class Issues extends React.Component {
               <textarea name="description" value={this.state.description} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Description" cols="40" rows="5"></textarea>
             </div>
             <div className="form-group">
-              <label htmlFor="duedate">Name: </label>
-              <input type="date" name="duedate" value={this.state.dueDate} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="DueDate" />
+              <label htmlFor="duedate">Date: </label>
+              <DatePicker
+              selected={this.state.dueDate}
+              onChange={this.handleChange}
+              />
             </div>
             
             <div className="form-group">

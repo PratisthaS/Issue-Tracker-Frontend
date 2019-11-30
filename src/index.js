@@ -10,28 +10,29 @@ import Issues from './components/Issues'
 import User from './components/User'
 import IssueDetail from './components/IssueDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 
 
 const routing = (
     <Router>
 
-        <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/project">Project</Link>
-        </li>
-        <li>
-          <Link to="/issue">Issues</Link>
-        </li>
-        <li>
-          <Link to="/user">User</Link>
-        </li>
-        <li>
-          <Link to="/issue-detail">IssueDetail</Link>
-        </li>
-      </ul>
+      <Nav>
+        <NavItem>
+          <NavLink href="/">Home</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/project">Project</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/issue">Issues</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/user">User</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/issue-detail">Issue Detail</NavLink>
+        </NavItem>
+        </Nav>
 
       <div>
         <Route exact path="/" component={App} />

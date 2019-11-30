@@ -8,6 +8,9 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Project from './components/Project'
 import Issues from './components/Issues'
 import User from './components/User'
+import IssueDetail from './components/IssueDetail';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const routing = (
     <Router>
@@ -25,13 +28,17 @@ const routing = (
         <li>
           <Link to="/user">User</Link>
         </li>
+        <li>
+          <Link to="/issue-detail">IssueDetail</Link>
+        </li>
       </ul>
 
       <div>
         <Route exact path="/" component={App} />
         <Route path="/project" component={Project} />
         <Route path="/issue" component={Issues} />
-          <Route path="/user" component={User} />
+        <Route path="/user" component={User} />
+        <Route path="/issue-detail" component={IssueDetail} />
 
       </div>
     </Router>

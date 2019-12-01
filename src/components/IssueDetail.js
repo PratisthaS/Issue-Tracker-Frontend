@@ -77,7 +77,10 @@ handleChange = (event)=> {
     }
 
     componentDidMount(){
-        axios.get("http://localhost:8080/issues/1").then(res => {
+
+    const { issueId } = this.props.match.params
+    debugger
+        axios.get(`http://localhost:8080/issues/${issueId}`).then(res => {
             this.setState({
                 issueId: res.data.id,
                 issueName: res.data.name,

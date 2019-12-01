@@ -76,11 +76,11 @@ export default class User extends React.Component {
             email: this.state.email,
             roleId: this.state.role
         };
-        debugger
         axios.post('http://localhost:8080/users', userDto)
             .then(res => {
                 alert('User added successfully!')
             })
+        event.preventDefault();
     };
 
 
@@ -95,7 +95,7 @@ export default class User extends React.Component {
             },
             {
                 name: 'LastName',
-                selector: 'lastname',
+                selector: 'lastName',
                 right: true,
             },
             {

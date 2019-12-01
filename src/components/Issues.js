@@ -27,7 +27,7 @@ export default class Issues extends React.Component {
       type:'Bug',
       priorityLevel:'HIGH',
       dueDate:'',
-      project:'',
+      project:{id:1},
       assignee:'',
       issueList: [],
       projectList: [],
@@ -89,10 +89,13 @@ export default class Issues extends React.Component {
       project: this.state.project,
       creator: 1 //will need to set it from session
     };
-    axios.post('http://localhost:8080/issues', issueDto)
+
+  axios.post('http://localhost:8080/issues', issueDto)
     .then(res => {
       alert('Issue added successfully!')
     })
+  
+    event.preventDefault();
 
   };
 
@@ -106,6 +109,8 @@ export default class Issues extends React.Component {
     
     console.log('clicked');
     console.log(state.target.id);
+    this.props.history.push('/issue-detail/'+state.target.id)
+ 
 
   };
 
@@ -122,6 +127,11 @@ export default class Issues extends React.Component {
           button: true,
         },
         {
+          name: 'Issue Number',
+          selector: 'id',
+          right: true,
+        },
+        {
           name: 'Name',
           selector: 'name',
           right: true,
@@ -133,7 +143,7 @@ export default class Issues extends React.Component {
         },
         {
           name: 'Project',
-          selector: 'project',
+          selector: 'project.name',
           right: true,
         },
         {

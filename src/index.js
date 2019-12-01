@@ -30,7 +30,7 @@ const routing = (
           <NavLink href="/user">User</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/issue-detail">Issue Detail</NavLink>
+          <NavLink href="/issue-detail/1">Issue Detail</NavLink>
         </NavItem>
         </Nav>
 
@@ -39,7 +39,7 @@ const routing = (
         <Route path="/project" component={Project} />
         <Route path="/issue" component={Issues} />
         <Route path="/user" component={User} />
-        <Route path="/issue-detail" component={IssueDetail} />
+        <Route path="/issue-detail/:issueId" component={IssueDetail} />
 
       </div>
     </Router>

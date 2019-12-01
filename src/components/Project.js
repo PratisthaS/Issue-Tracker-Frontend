@@ -65,6 +65,8 @@ export default class Project extends React.Component {
         alert('Project added successfully!')
       })
 
+      event.preventDefault();
+
 
     }
   

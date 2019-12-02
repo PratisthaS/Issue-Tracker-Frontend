@@ -83,11 +83,26 @@ export default class User extends React.Component {
         event.preventDefault();
     };
 
+    handleButtonClick = (state) => {
+    
+        console.log(state.target.id);
+        this.props.history.push('/edit-roles/'+state.target.id)
+     
+    
+      };
+
 
 
     render() {
         const data = this.state.userList;
         const columns = [
+            {
+      
+                cell: (row) => <button onClick={this.handleButtonClick} id={row.id}>Action</button>,
+                ignoreRowClick: true,
+                allowOverflow: true,
+                button: true,
+              },
             {
                 name: 'FirstName',
                 selector: 'firstname',

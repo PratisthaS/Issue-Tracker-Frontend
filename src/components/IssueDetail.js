@@ -29,15 +29,17 @@ export default class IssueDetail extends React.Component{
             "WAITING"]
     }
 
-    changeAssignee = ()=>{
+    changeAssignee = (event)=>{
         const data = {
             userId: this.state.assignee.id,
-            issueId: this.state.issueId
+            issueId: this.state.issueId,
+            sessionUserId: 1 //will need to set it from session
         }
         axios.post('http://localhost:8080/change-assignee', data)
         .then(res => {
-      console.log("Assignee changed")
+      console.log("Assignee changed")      
     })
+    event.preventDefault();
 }
 
 handleChange = (event)=> {
@@ -51,19 +53,21 @@ handleChange = (event)=> {
     console.log('Change detected. State updated' + name + ' = ' + value);
   }
 
-    changeStatus = ()=>{
+    changeStatus = (event)=>{
         const data = {
             issueId: this.state.issueId,
-            status: this.currentStatus
+            status: this.currentStatus,
+            sessionUserId: 1 //will need to set it from session
         }
         axios.post('http://localhost:8080/change-status', data)
         .then(res => {
             console.log("Status changed")
             this.setState({status: this.currentStatus})
     })
+    event.preventDefault();
     }
 
-    postComments = ()=>{
+    postComments = (event)=>{
         const data = {
             issueId: this.state.issueId,
             userId: 1, //need to set this from session
@@ -74,12 +78,12 @@ handleChange = (event)=> {
             console.log("Posted comments")
             this.setState({status: this.currentStatus})
     })
+    event.preventDefault()
     }
 
     componentDidMount(){
 
     const { issueId } = this.props.match.params
-    debugger
         axios.get(`http://localhost:8080/issues/${issueId}`).then(res => {
             this.setState({
                 issueId: res.data.id,

@@ -10,6 +10,7 @@ import Issues from './components/Issues'
 import User from './components/User'
 import IssueDetail from './components/IssueDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from './Login'
 import { Nav, NavItem, NavLink } from 'reactstrap';
 
 
@@ -32,6 +33,9 @@ const routing = (
         <NavItem>
           <NavLink href="/issue-detail/1">Issue Detail</NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink href="/login">Login</NavLink>
+        </NavItem>
         </Nav>
 
       <div>
@@ -40,7 +44,7 @@ const routing = (
         <Route path="/issue" component={Issues} />
         <Route path="/user" component={User} />
         <Route path="/issue-detail/:issueId" component={IssueDetail} />
-
+        <Route path="/login" component={Login} />
       </div>
     </Router>
   )

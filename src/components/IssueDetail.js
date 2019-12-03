@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import { FaPaperclip } from 'react-icons/fa';
 
 export default class IssueDetail extends React.Component{
 
@@ -19,7 +20,8 @@ export default class IssueDetail extends React.Component{
             assignee:{},
             userList:[],
             comment: '',
-            commentList: []
+            commentList: [],
+            file:null
           };
           this.currentStatus = "";
           this.issueStatusList = ["RESOLVED",
@@ -67,12 +69,15 @@ handleChange = (event)=> {
     event.preventDefault();
     }
 
+
     postComments = (event)=>{
-        const data = {
-            issueId: this.state.issueId,
-            userId: 1, //need to set this from session
-            comment: this.state.comment 
-        }
+
+
+        const data = new FormData();
+        data.append('issueId',this.state.issueId)
+        data.append('userId',1)
+        data.append('comment', this.state.comment)
+        data.append('attach',this.state.file)        
         axios.post('http://localhost:8080/comment', data)
         .then(res => {
             console.log("Posted comments")
@@ -80,6 +85,11 @@ handleChange = (event)=> {
     })
     event.preventDefault()
     }
+
+
+    onFileUploadChange = (e) =>{
+        this.setState({file:e.target.files[0]})
+      }
 
     componentDidMount(){
 
@@ -110,10 +120,38 @@ handleChange = (event)=> {
                 this.setState({
                     commentList: response.data
                 })
+                debugger
             })
         })
 
     }
+
+    onFileDownloadClicked = (item) => {
+
+        let currentId = item.target.id
+
+        axios.get("http://localhost:8080/attach/comment/" + currentId).then (response=>{
+                debugger
+                var binaryString = window.atob(response.data);
+                var binaryLen = binaryString.length;
+                var bytes = new Uint8Array(binaryLen);
+                for (var i = 0; i < binaryLen; i++) {
+                     var ascii = binaryString.charCodeAt(i);
+                     bytes[i] = ascii;
+                }
+                var contentType = response.headers['content-type'];
+                var blob = new Blob([bytes], {type: contentType});
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                var fileName = "ss";
+                link.download = fileName;
+                link.click();
+        
+        
+
+    });
+}
+    
 
     render(){
         return(
@@ -218,6 +256,7 @@ handleChange = (event)=> {
                     <br/>
                     <textarea name="comment" rows="4" cols="70" onChange={this.handleChange}></textarea>
                     <br/>
+                    <input type="file" onChange={this.onFileUploadChange} /> <br/>
                     <input type="submit" value="Submit" className="btn btn-primary" />
                     </form>
 
@@ -237,7 +276,13 @@ handleChange = (event)=> {
             <br/>
             {item.date}
             <br/>
-            {item.messageText}        
+            {item.messageText}      
+            <br/>
+            <div>
+            {item.attachment!=null? (
+            <button id={item.id} onClick = {this.onFileDownloadClicked}><FaPaperclip />{item.fileName}</button>
+            ):(<label></label>)}
+            </div>
         </ListGroupItem>)}
     </ListGroup>
                 </Fragment>

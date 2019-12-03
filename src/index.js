@@ -12,6 +12,7 @@ import IssueDetail from './components/IssueDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login'
 import { Nav, NavItem, NavLink } from 'reactstrap';
+import WebSocketClient from './components/WebSocketClient';
 
 
 const routing = (
@@ -36,6 +37,9 @@ const routing = (
         <NavItem>
           <NavLink href="/login">Login</NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink href="/socket">Socket</NavLink>
+        </NavItem>
         </Nav>
 
       <div>
@@ -45,6 +49,7 @@ const routing = (
         <Route path="/user" component={User} />
         <Route path="/issue-detail/:issueId" component={IssueDetail} />
         <Route path="/login" component={Login} />
+        <Route path="/socket" component={WebSocketClient} />
       </div>
     </Router>
   )

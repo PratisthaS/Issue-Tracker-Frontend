@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import AppBar from '@material-ui/core/AppBar';
+import SockJS from 'sockjs-client';
+import Stomp from 'stomp-websocket'
 import {
     FormControl,
     InputLabel,
@@ -35,7 +37,9 @@ export default class User extends React.Component {
         this.fetchProjects()
         this.fetchRoles()
         this.fetchUsers()
+        this.connect()
     }
+
     fetchUsers(){
         axios.get("http://localhost:8080/users").then(res =>{
             this.setState({
@@ -43,6 +47,7 @@ export default class User extends React.Component {
             })
         })
     }
+
     fetchProjects(){
         axios.get("http://localhost:8080/projects").then(res =>{
             this.setState({projectList:res.data})
@@ -54,6 +59,34 @@ export default class User extends React.Component {
             this.setState({roleList:res.data})
         })
     }
+
+    connect = () => {
+        debugger
+        var socket = new SockJS('http://localhost:8080/stat-websocket');
+        this.stompClient = Stomp.over(socket);
+        let that = this;
+        this.stompClient.connect({}, frame => {
+        })
+    }
+
+    disconnect = () => {
+        if (this.stompClient !== null) {
+            this.stompClient.disconnect();
+        }
+        console.log("Disconnected");
+    };
+
+    sendMessage = message => {
+        const userDto = {
+            firstname: this.state.firstname,
+            middleName: this.state.middleName,
+            lastName: this.state.lastName,
+            projectId: this.state.project,
+            email: this.state.email,
+            roleId: this.state.role
+        };
+        this.stompClient.send("/app/statistics", {}, JSON.stringify(userDto));
+    };
 
 
 
@@ -86,8 +119,7 @@ export default class User extends React.Component {
     handleButtonClick = (state) => {
     
         console.log(state.target.id);
-        this.props.history.push('/edit-roles/'+state.target.id)
-     
+        this.props.history.push('/edit-roles/'+state.target.id)     
     
       };
 
@@ -127,7 +159,7 @@ export default class User extends React.Component {
                     <h1>User Tracker</h1>
                 </AppBar>
                     <h3>Add Users</h3>
-                    <form onSubmit={this.handleSubmit} >
+                    <form onSubmit={this.sendMessage} >
                         <div className="form-group">
                             <label htmlFor="firstname">First Name: </label>
                             <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="First Name" />

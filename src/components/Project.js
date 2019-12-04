@@ -65,6 +65,7 @@ export default class Project extends React.Component {
       axios.post('http://localhost:8080/projects', projectDto)
       .then(res => {
         console.log('Project added successfully!')
+        this.fetchProjects()
       })
 
       event.preventDefault();

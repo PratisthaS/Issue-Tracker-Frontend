@@ -94,6 +94,7 @@ export default class Issues extends React.Component {
   axios.post('http://localhost:8080/issues', issueDto)
     .then(res => {
       console.log('Issue added successfully!')
+      this.fetchIssues()
     })
   
     event.preventDefault();

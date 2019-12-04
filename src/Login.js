@@ -34,6 +34,9 @@ export default function Login(props) {
 
     return (
         <div className="Login">
+            <div align="center">
+            <h3>Issue Tracking System</h3>            
+            </div>
             <form onSubmit={handleSubmit}>
                 <FormGroup controlId="email" bsSize="large">
                     <FormLabel>Email</FormLabel>

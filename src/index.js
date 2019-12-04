@@ -16,10 +16,14 @@ import { Nav, NavItem, NavLink } from 'reactstrap';
 import WebSocketClient from './components/WebSocketClient';
 import Dashboard from "./components/Dashboard";
 import RouterConfig from "./Route";
+import { Button } from 'reactstrap';
+import { useHistory } from "react-router-dom";
+
 
 
 const routing = (
     <Fragment>
+      <Fragment>
       <Nav>
         <NavItem>
           <NavLink href="/">Dashboard</NavLink>
@@ -34,12 +38,19 @@ const routing = (
           <NavLink href="/user">User</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/login">Login</NavLink>
+          <NavLink  id="linkHome" href="/login">Login</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/socket">Socket</NavLink>
         </NavItem>
         </Nav>
+        </Fragment>
+        <div align="right">
+        <Button onClick = {event => {
+          localStorage.removeItem('sessionUser')
+          document.getElementById('linkHome').click();
+        }}>Logout</Button>
+        </div>
       <RouterConfig/>
     </Fragment>
   )

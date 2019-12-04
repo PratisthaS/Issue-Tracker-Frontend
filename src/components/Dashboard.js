@@ -29,7 +29,7 @@ export default class Dashboard extends React.Component {
         const columns = [
             {
                 name: 'Issue Number',
-                selector: 'id',
+                selector: 'issue.id',
                 right: true,
             },
             {

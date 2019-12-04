@@ -46,6 +46,15 @@ export default class IssueDetail extends React.Component{
     event.preventDefault();
 }
 
+fetchComment(){
+    axios.get("http://localhost:8080/issue/comment/" + this.state.issueId).then (response=>{
+        this.setState({
+            commentList: response.data
+        })
+        debugger
+    })
+}
+
 handleChange = (event)=> {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -84,6 +93,8 @@ handleChange = (event)=> {
         .then(res => {
             console.log("Posted comments")
             this.setState({status: this.currentStatus})
+            this.fetchComment()
+
     })
     event.preventDefault()
     }
@@ -117,13 +128,9 @@ handleChange = (event)=> {
                 })
             })
             this.issue = res.data
+            this.fetchComment()
 
-            axios.get("http://localhost:8080/issue/comment/" + this.state.issueId).then (response=>{
-                this.setState({
-                    commentList: response.data
-                })
-                debugger
-            })
+
         })
 
     }

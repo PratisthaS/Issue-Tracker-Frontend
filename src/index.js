@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -15,11 +15,11 @@ import Login from './Login'
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import WebSocketClient from './components/WebSocketClient';
 import Dashboard from "./components/Dashboard";
+import RouterConfig from "./Route";
 
 
 const routing = (
-    <Router>
-
+    <Fragment>
       <Nav>
         <NavItem>
           <NavLink href="/">Dashboard</NavLink>
@@ -40,18 +40,8 @@ const routing = (
           <NavLink href="/socket">Socket</NavLink>
         </NavItem>
         </Nav>
-
-      <div>
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/project" component={Project} />
-        <Route path="/issue" component={Issues} />
-        <Route path="/user" component={User} />
-        <Route path="/issue-detail/:issueId" component={IssueDetail} />
-        <Route path="/edit-roles/:userId" component={editRoles} />
-        <Route path="/socket" component={WebSocketClient} />
-        <Route path="/login" component={Login} />
-      </div>
-    </Router>
+      <RouterConfig/>
+    </Fragment>
   )
   ReactDOM.render(routing, document.getElementById('root'))
 

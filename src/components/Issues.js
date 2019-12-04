@@ -15,6 +15,9 @@ import DatePicker from "react-datepicker";
  
 import "react-datepicker/dist/react-datepicker.css";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default class Issues extends React.Component {
 
   //only UI is designed for this page. Need to hookup with backend.
@@ -33,7 +36,7 @@ export default class Issues extends React.Component {
       projectList: [],
       assigneeList:[]
     };
-
+    this.userList = []
     this.handleInputChange = this.handleInputChange.bind(this);
     this.issueType = ["Bug","Task"]
     this.priorityLevel = ["HIGH","LOW","MEDIUM"]
@@ -41,16 +44,25 @@ export default class Issues extends React.Component {
 
   }
 
+  notify = (text) =>{
+    toast(text);
+    debugger
+  }
+
 
   componentDidMount(){
-    this.fetchUsers()
     this.fetchIssues()
     this.fetchProjects()
+    this.fetchUsers()
+
   }
 
   fetchUsers() {
     axios.get("http://localhost:8080/users").then(res => {
-      this.setState({assigneeList: res.data})
+      this.userList = res.data
+      var assignees = this.userList.filter(item => 
+        item.projectsInvolved.includes(this.state.project))
+      this.setState({assigneeList: assignees})
     })
   }
 
@@ -61,10 +73,30 @@ export default class Issues extends React.Component {
       })
     })
   }
+
   fetchProjects(){
     axios.get("http://localhost:8080/projects").then(res =>{
-      this.setState({projectList:res.data})
+      this.setState({
+        projectList:res.data,
+        project:res.data[0].id
+      })
+
     })
+  }
+
+  handleProjectChange = (event) => {
+    var assignees = this.userList.filter(item => {
+      if (item.projectsInvolved.includes(Number(event.target.value)))
+        return item
+    }
+    
+      )
+      this.setState({assigneeList:assignees})
+      this.setState({project:event.target.value})
+      if (assignees.size>0)
+        this.setState({assignee:assignees[0].id})
+
+
   }
 
   handleInputChange(event) {
@@ -93,6 +125,8 @@ export default class Issues extends React.Component {
   axios.post('http://localhost:8080/issues', issueDto)
     .then(res => {
       console.log('Issue added successfully!')
+      this.notify("Issue added successfully")
+
       this.fetchIssues();
       this.setState( {
         name: '',
@@ -105,8 +139,7 @@ export default class Issues extends React.Component {
         issueList: []
       });
     })
-  
-    event.preventDefault();
+    event.preventDefault();    
 
   };
 
@@ -121,8 +154,6 @@ export default class Issues extends React.Component {
     console.log('clicked');
     console.log(state.target.id);
     this.props.history.push('/issue-detail/'+state.target.id)
- 
-
   };
 
   
@@ -175,6 +206,7 @@ export default class Issues extends React.Component {
                 <h1>Issue Tracker</h1>
             </AppBar>
           <h3>Create Issues</h3>
+          <ToastContainer />
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">
               <label htmlFor="nameInput">Name: </label>
@@ -208,7 +240,7 @@ export default class Issues extends React.Component {
 
             <div className="form-group">
               <label htmlFor="project">Select Project: </label>
-              <select id="project" name="project" onChange = {event => {this.setState({project:event.target.value})}}>
+              <select id="project" name="project" onChange = {this.handleProjectChange}>
                 {this.state.projectList.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
               </select>
             </div>

@@ -5,7 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import SockJS from 'sockjs-client';
 import Stomp from 'stomp-websocket';
 import "./Component.css";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
     FormControl,
     InputLabel,
@@ -14,7 +15,7 @@ import {
     TextField
 } from "@material-ui/core";
 
-export default class User extends React.Component {
+export default class User extends React.Component {  
 
     constructor(props){
         super(props)
@@ -35,6 +36,11 @@ export default class User extends React.Component {
 
     }
 
+    notify = (text) =>{
+        toast(text);
+        debugger
+      }
+
     componentDidMount(){
         this.fetchProjects()
         this.fetchRoles()
@@ -54,6 +60,7 @@ export default class User extends React.Component {
         axios.get("http://localhost:8080/projects").then(res =>{
             this.setState({projectList:res.data})
         })
+
     }
 
     fetchRoles(){
@@ -115,6 +122,7 @@ export default class User extends React.Component {
             .then(res => {
                 console.log('User added successfully!')
                 this.fetchUsers();
+                this.notify('User added successfully');
                 this.setState( {
                     firstname: '',
                     middleName: '',
@@ -125,6 +133,7 @@ export default class User extends React.Component {
                     userList: []
                 });
             })
+            
         event.preventDefault();
     };
 
@@ -170,8 +179,10 @@ export default class User extends React.Component {
                 <AppBar color="primary" position="static">
                     <h1>User Tracker</h1>
                 </AppBar>
+
                     <h3>Add Users</h3>
-                    <form onSubmit={this.sendMessage} >
+                    <ToastContainer />
+                    <form onSubmit={this.handleSubmit} >
                         <div className="form-group">
                             <label htmlFor="firstname">First Name: </label>
                             <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="First Name" />

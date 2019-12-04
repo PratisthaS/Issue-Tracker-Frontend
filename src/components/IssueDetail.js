@@ -156,8 +156,7 @@ handleChange = (event)=> {
                 link.href = window.URL.createObjectURL(blob);
                 var fileName = "ss";
                 link.download = fileName;
-                link.click();
-        
+                link.click();      
         
 
     });

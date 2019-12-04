@@ -17,7 +17,7 @@ export default class Dashboard extends React.Component {
     }
 
     fetchIssues(){
-        axios.get("http://localhost:8080/changeTracker").then(res =>{
+        axios.get("http://localhost:8080/changeTracker/1").then(res =>{
             this.setState({
                 issueList:res.data
             })

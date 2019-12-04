@@ -8,6 +8,7 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Project from './components/Project'
 import Issues from './components/Issues'
 import User from './components/User'
+import editRoles from './components/editRoles'
 import IssueDetail from './components/IssueDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login'
@@ -33,9 +34,6 @@ const routing = (
           <NavLink href="/user">User</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/issue-detail/1">Issue Detail</NavLink>
-        </NavItem>
-        <NavItem>
           <NavLink href="/login">Login</NavLink>
         </NavItem>
         <NavItem>
@@ -49,6 +47,7 @@ const routing = (
         <Route path="/issue" component={Issues} />
         <Route path="/user" component={User} />
         <Route path="/issue-detail/:issueId" component={IssueDetail} />
+        <Route path="/edit-roles/:userId" component={editRoles} />
         <Route path="/socket" component={WebSocketClient} />
         <Route path="/login" component={Login} />
       </div>

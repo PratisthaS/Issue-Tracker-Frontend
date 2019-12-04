@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import AppBar from '@material-ui/core/AppBar';
+import "./Component.css";
 import {
   FormControl,
   InputLabel,
@@ -25,6 +26,7 @@ export default class Project extends React.Component {
         projectList: []
 
       };
+
   
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,7 +64,7 @@ export default class Project extends React.Component {
       };
       axios.post('http://localhost:8080/projects', projectDto)
       .then(res => {
-        alert('Project added successfully!')
+        console.log('Project added successfully!')
       })
 
       event.preventDefault();
@@ -107,7 +109,7 @@ const columns = [
               <input name="key" type="text" value={this.state.key} onChange={this.handleInputChange} className="form-control" id="keyInput" placeholder="KEY"/>
             </div>
             <div className="form-group">
-              <label for="description">Project Description: </label><br/>
+              <label for="description">Project Description: </label>
               <textarea name="description" value={this.state.description} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Description" cols="40" rows="5"></textarea>
             </div>
             <input type="submit" value="Submit" className="btn btn-primary" />

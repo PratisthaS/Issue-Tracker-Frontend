@@ -3,7 +3,9 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import AppBar from '@material-ui/core/AppBar';
 import SockJS from 'sockjs-client';
-import Stomp from 'stomp-websocket'
+import Stomp from 'stomp-websocket';
+import "./Component.css";
+
 import {
     FormControl,
     InputLabel,
@@ -111,7 +113,7 @@ export default class User extends React.Component {
         };
         axios.post('http://localhost:8080/users', userDto)
             .then(res => {
-                alert('User added successfully!')
+                console.log('User added successfully!')
             })
         event.preventDefault();
     };
@@ -130,7 +132,7 @@ export default class User extends React.Component {
         const columns = [
             {
       
-                cell: (row) => <button onClick={this.handleButtonClick} id={row.id}>Action</button>,
+                cell: (row) => <button onClick={this.handleButtonClick} id={row.id}>Edit</button>,
                 ignoreRowClick: true,
                 allowOverflow: true,
                 button: true,
@@ -183,7 +185,7 @@ export default class User extends React.Component {
                             <select id="project" name="project" onChange = {event => {this.setState({project:event.target.value})}}>
                                 {this.state.projectList.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
                             </select>
-                        </div>
+                       </div>
 
                         <div className="form-group">
                             <label htmlFor="role">Select Role: </label>

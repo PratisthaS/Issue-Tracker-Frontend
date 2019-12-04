@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { FaPaperclip } from 'react-icons/fa';
+import "./Component.css";
+import AppBar from "@material-ui/core/AppBar/AppBar";
 
 export default class IssueDetail extends React.Component{
 
@@ -156,10 +158,14 @@ handleChange = (event)=> {
     render(){
         return(
         <div>
+            <AppBar color="primary" position="static">
+                <h1>Issue Detail Page</h1>
+            </AppBar>
             <Container>
                 <Row>
                     <Col>
             <Fragment>
+
                 <h3>Issue  Details </h3>
                 <div>
                     <Container>
@@ -249,10 +255,9 @@ handleChange = (event)=> {
                     <Col>
                 <Fragment>
                     <br/>
-                    <h3>Comments:</h3>
                     <br/> <br/>
                     <form onSubmit={this.postComments}>
-                    <label htmlFor="comment">Comments: </label> 
+                    <label htmlFor="comment">Add Comment: </label>
                     <br/>
                     <textarea name="comment" rows="4" cols="70" onChange={this.handleChange}></textarea>
                     <br/>

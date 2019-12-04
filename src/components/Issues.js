@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import AppBar from '@material-ui/core/AppBar';
+import "./Component.css";
 import {
   FormControl,
   InputLabel,
@@ -92,7 +93,7 @@ export default class Issues extends React.Component {
 
   axios.post('http://localhost:8080/issues', issueDto)
     .then(res => {
-      alert('Issue added successfully!')
+      console.log('Issue added successfully!')
     })
   
     event.preventDefault();
@@ -121,7 +122,7 @@ export default class Issues extends React.Component {
       const columns = [
         {
       
-          cell: (row) => <button onClick={this.handleButtonClick} id={row.id}>Action</button>,
+          cell: (row) => <button onClick={this.handleButtonClick} id={row.id}>Detail</button>,
           ignoreRowClick: true,
           allowOverflow: true,
           button: true,
@@ -170,7 +171,7 @@ export default class Issues extends React.Component {
               <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="Title" />
             </div>
             <div className="form-group">
-              <label htmlFor="description">Description: </label><br/>
+              <label htmlFor="description">Description: </label>
               <textarea name="description" value={this.state.description} onChange={this.handleInputChange} className="form-control" id="descInput" placeholder="Description" cols="40" rows="5"></textarea>
             </div>
             <div className="form-group">

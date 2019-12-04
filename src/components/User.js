@@ -114,7 +114,16 @@ export default class User extends React.Component {
         axios.post('http://localhost:8080/users', userDto)
             .then(res => {
                 console.log('User added successfully!')
-                this.fetchUsers()
+                this.fetchUsers();
+                this.setState( {
+                    firstname: '',
+                    middleName: '',
+                    lastName: '',
+                    project: '',
+                    email: '',
+                    role: '',
+                    userList: []
+                });
             })
         event.preventDefault();
     };

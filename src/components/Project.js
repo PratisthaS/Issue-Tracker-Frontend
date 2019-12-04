@@ -66,6 +66,12 @@ export default class Project extends React.Component {
       .then(res => {
         console.log('Project added successfully!')
         this.fetchProjects()
+        this.setState( {
+          name: '',
+          key:'',
+          description:'',
+          projectList: []
+        });
       })
 
       event.preventDefault();

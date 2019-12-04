@@ -26,6 +26,7 @@ export default class IssueDetail extends React.Component{
             file:null
           };
           this.currentStatus = "";
+          this.currentAssignee = "";
           this.issueStatusList = ["RESOLVED",
             "NEW",
             "REOPENED",
@@ -35,13 +36,14 @@ export default class IssueDetail extends React.Component{
 
     changeAssignee = (event)=>{
         const data = {
-            userId: this.state.assignee.id,
+            userId: this.currentAssignee,
             issueId: this.state.issueId,
             sessionUserId: 1 //will need to set it from session
         }
         axios.post('http://localhost:8080/change-assignee', data)
         .then(res => {
-      console.log("Assignee changed")      
+      console.log("Assignee changed")
+            this.setState({assignee: this.state.userList.filter(item => item.id==this.currentAssignee)[0]})
     })
     event.preventDefault();
 }
@@ -233,7 +235,7 @@ handleChange = (event)=> {
                     <h3>Change Assignee</h3>
                     <form onSubmit={this.changeAssignee} >
                     <label htmlFor="assignee">Select Assignee: </label> 
-                     <select id="assignee" name="assignee" onChange = {event => {this.setState({assignee:this.state.userList.filter(item => item.id==event.target.value)[0]})}}>
+                     <select id="assignee" name="assignee" onChange = {event => {this.currentAssignee= event.target.value}}>
                      {this.state.userList.map((item) => <option key={item.id} value={item.id}>{item.firstname}</option>)}
                     </select>
                     <br/> <br/>

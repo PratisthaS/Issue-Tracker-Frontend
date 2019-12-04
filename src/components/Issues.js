@@ -22,7 +22,6 @@ export default class Issues extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-
       name: '',
       description: '',
       type:'Bug',
@@ -94,7 +93,17 @@ export default class Issues extends React.Component {
   axios.post('http://localhost:8080/issues', issueDto)
     .then(res => {
       console.log('Issue added successfully!')
-      this.fetchIssues()
+      this.fetchIssues();
+      this.setState( {
+        name: '',
+        description: '',
+        type:'Bug',
+        priorityLevel:'HIGH',
+        dueDate:'',
+        project:{id:1},
+        assignee:'',
+        issueList: []
+      });
     })
   
     event.preventDefault();
@@ -210,7 +219,7 @@ export default class Issues extends React.Component {
                 {this.state.assigneeList.map((item) => <option key={item.id} value={item.id}>{item.firstname}</option>)}
               </select>
             </div>
-            <input type="submit" value="Submit" className="btn btn-primary" />
+            <input type="submit" value="Submit" className="btn btn-primary"/>
           </form>
 
           <DataTable

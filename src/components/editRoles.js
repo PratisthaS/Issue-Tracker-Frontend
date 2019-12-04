@@ -37,6 +37,7 @@ export default class EditRoles extends React.Component {
         axios.post('http://localhost:8080/editroles', data)
         .then(res => {
             console.log("User roles updated")
+            this.props.history.push('/user')
     })
     event.preventDefault()
     }

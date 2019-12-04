@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Login.css";
+import axios from 'axios';
+
 
 export default function Login(props) {
     const [email, setEmail] = useState("");
@@ -11,6 +13,22 @@ export default function Login(props) {
     }
 
     function handleSubmit(event) {
+        debugger
+        const data = {
+            email,
+            password
+        }
+        axios.post('http://localhost:8080/authenticate', data)
+      .then(res => {
+          debugger
+        console.log('User authenticated')
+        localStorage.setItem('sessionUser',JSON.stringify(res.data))
+        props.history.push('/')    
+
+      }).catch (error => {
+          debugger
+          alert("User could not be authenticated")
+      })
         event.preventDefault();
     }
 

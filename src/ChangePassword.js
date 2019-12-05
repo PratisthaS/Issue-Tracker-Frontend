@@ -2,34 +2,39 @@ import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ChangePassword(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword,setConfirmPassword] = useState("");
+    const [newPassword,setNewPassword] = useState("");
 
+    var currentUserEmail = JSON.parse(localStorage.getItem('sessionUser')).email
 
     function validateForm() {
-        return email.length > 0 && password.length > 0 && confirmPassword.length > 0 && password ==confirmPassword;
+        return password.length > 0 && newPassword.length > 0;
     }
 
+    function notify(text){
+        toast(text);
+      }
+
     function handleSubmit(event) {
-        debugger
+        
+        var email = currentUserEmail
         const data = {
             email,
-            password
+            password,
+            newPassword
         }
-        axios.post('http://localhost:8080/authenticate', data)
+        axios.post('http://localhost:8080/changePassword', data)
             .then(res => {
-                debugger
-                console.log('User authenticated')
-                localStorage.setItem('sessionUser',JSON.stringify(res.data))
+                console.log('Password Changed')
                 props.history.push('/')
 
             }).catch (error => {
-            debugger
-            alert("User could not be authenticated")
+            notify("Old password was incorrect! Password could not be changed")
         })
         event.preventDefault();
     }
@@ -37,12 +42,12 @@ export default function ChangePassword(props) {
     return (
         <div className="Login">
             <div align="center">
-                <h3>Issue Tracking System</h3>
+                <h3>Change Password</h3>
             </div>
             <form onSubmit={handleSubmit}>
 
-
-                <label>Email: {"User currently in session"}</label> <br/>
+            <ToastContainer />
+                <label>Email: {currentUserEmail}</label> <br/>
 
 
                 <FormGroup controlId="password" bsSize="large">
@@ -53,11 +58,11 @@ export default function ChangePassword(props) {
                         type="password"
                     />
                 </FormGroup>
-                <FormGroup controlId="Confirmpassword" bsSize="large">
-                    <FormLabel>Confirm Password</FormLabel>
+                <FormGroup controlId="Newpassword" bsSize="large">
+                    <FormLabel>New Password</FormLabel>
                     <FormControl
-                        value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
+                        value={newPassword}
+                        onChange={e => setNewPassword(e.target.value)}
                         type="password"
                     />
                 </FormGroup>

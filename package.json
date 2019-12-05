@@ -14,8 +14,9 @@
     "react-icons": "^3.8.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-toast-notifications": "^2.4.0",
+    "react-toastify": "^5.4.1",
     "reactstrap": "^8.1.1",
-    "sockjs-client": "latest",
     "stomp-websocket": "^2.3.4-next",
     "styled-components": "^4.4.0"
   },

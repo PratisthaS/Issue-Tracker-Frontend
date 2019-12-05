@@ -14,6 +14,8 @@ import {
     Button,
     TextField
 } from "@material-ui/core";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs'
 
 export default class User extends React.Component {  
 
@@ -177,11 +179,12 @@ export default class User extends React.Component {
         return (
             <div>
                 <AppBar color="primary" position="static">
-                    <h1>User Tracker</h1>
+                    <h1>User Management</h1>
                 </AppBar>
-
-                    <h3>Add Users</h3>
                     <ToastContainer />
+
+                    <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+          <Tab eventKey="home" title="Add new User">
                     <form onSubmit={this.handleSubmit} >
                         <div className="form-group">
                             <label htmlFor="firstname">First Name: </label>
@@ -217,11 +220,15 @@ export default class User extends React.Component {
 
                         <input type="submit" value="Submit" className="btn btn-primary" />
                     </form>
+                    </Tab>
+                    <Tab eventKey="profile" title="User List">
                 <DataTable
                     title="List of Users"
                     columns={columns}
                     data={data}
                 />
+                </Tab>
+                </Tabs>
             </div>
 
 

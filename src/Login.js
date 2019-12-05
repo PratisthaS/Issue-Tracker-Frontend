@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Login(props) {
@@ -11,6 +13,9 @@ export default function Login(props) {
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
+    function notify(text){
+        toast(text);
+      }
 
     function handleSubmit(event) {
         debugger
@@ -21,13 +26,12 @@ export default function Login(props) {
         axios.post('http://localhost:8080/authenticate', data)
       .then(res => {
           debugger
+        notify("Welcome!")
         console.log('User authenticated')
         localStorage.setItem('sessionUser',JSON.stringify(res.data))
-        props.history.push('/')    
-
+        props.history.push('/')
       }).catch (error => {
-          debugger
-          alert("User could not be authenticated")
+          notify("Invalid credentials!")
       })
         event.preventDefault();
     }
@@ -35,7 +39,8 @@ export default function Login(props) {
     return (
         <div className="Login">
             <div align="center">
-            <h3>Issue Tracking System</h3>            
+            <h3>Issue Tracking System</h3>
+            <ToastContainer />            
             </div>
             <form onSubmit={handleSubmit}>
                 <FormGroup controlId="email" bsSize="large">

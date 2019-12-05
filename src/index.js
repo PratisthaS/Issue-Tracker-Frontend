@@ -18,42 +18,42 @@ import Dashboard from "./components/Dashboard";
 import RouterConfig from "./Route";
 import { Button } from 'reactstrap';
 import { useHistory } from "react-router-dom";
-
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const routing = (
     <Fragment>
       <Fragment>
       <Nav>
         <NavItem>
-          <NavLink href="/">Dashboard</NavLink>
+          <NavLink href="/"><h4>Dashboard</h4></NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/project">Project</NavLink>
+          <NavLink href="/project"><h4>Project</h4></NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/issue">Issues</NavLink>
+          <NavLink href="/issue"><h4>Issues</h4></NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/user">User</NavLink>
+          <NavLink href="/user"><h4>User</h4></NavLink>
         </NavItem>
         <NavItem>
-          <NavLink  id="linkHome" href="/login">Login</NavLink>
+          <NavLink  id="linkHome" href="/login"><h4>Login</h4></NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/changePassword">Change Password</NavLink>
+          <NavLink href="/changePassword"><h4>Change Password</h4></NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/socket">Socket</NavLink>
+          <NavLink href="/socket"><h4>Socket</h4></NavLink>
         </NavItem>
         </Nav>
-        </Fragment>
         <div align="right">
         <Button onClick = {event => {
           localStorage.removeItem('sessionUser')
           document.getElementById('linkHome').click();
         }}>Logout</Button>
         </div>
+        </Fragment>
+        
       <RouterConfig/>
     </Fragment>
   )

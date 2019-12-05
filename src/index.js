@@ -25,7 +25,7 @@ const routing = (
       <Fragment>
       <Nav>
         <NavItem>
-          <NavLink href="/"><h4>Dashboard</h4></NavLink>
+          <NavLink href="/dashboard"><h4>Dashboard</h4></NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/project"><h4>Project</h4></NavLink>

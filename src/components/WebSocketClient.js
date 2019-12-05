@@ -62,8 +62,9 @@ export default class WebSocketClient extends React.Component {
                     <button onClick={this.connect}>Connect</button>
                     <button onClick={this.disconnect}>Disconnect</button>
                 </div>
-
+                <br/><br/>
                 <div>
+                    <h3>List of Users</h3>
                     <ul>
                         {this.state.messages.map(message => <li>{message}</li>)}
                     </ul>

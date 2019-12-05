@@ -1,6 +1,8 @@
 import DataTable from "react-data-table-component";
 import React from "react";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default class Dashboard extends React.Component {
@@ -12,8 +14,21 @@ export default class Dashboard extends React.Component {
             currentUserId:1
         };
     }
+
+    notify = (text) => {
+        toast(text);
+      }
+      
     componentDidMount(){
+        if (localStorage.getItem("sessionUser")==null){
+            this.notify("Please login first");
+            setTimeout(() => {
+              this.props.history.push('/');
+            }, 2000);      
+          }
+          else{
         this.fetchIssues()
+          }
     }
 
     fetchIssues(){
@@ -51,6 +66,8 @@ export default class Dashboard extends React.Component {
 
         return (
             <div>
+                            <ToastContainer />            
+
                 <DataTable
                     title="Recent changes made in your project"
                     columns={columns}

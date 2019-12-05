@@ -50,9 +50,16 @@ export default class Issues extends React.Component {
 
 
   componentDidMount() {
+    if (localStorage.getItem("sessionUser")==null){
+      this.notify("Please login first");
+      setTimeout(() => {
+        this.props.history.push('/');
+      }, 2000);      
+    }else{
     this.fetchIssues()
     this.fetchProjects()
     this.fetchUsers()
+    }
 
   }
 
@@ -113,6 +120,7 @@ export default class Issues extends React.Component {
   }
 
   handleSubmit(event) {
+
     const issueDto = {
       name: this.state.name,
       type: this.state.type,

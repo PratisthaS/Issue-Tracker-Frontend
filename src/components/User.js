@@ -17,9 +17,9 @@ import {
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs'
 
-export default class User extends React.Component {  
+export default class User extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             firstname: '',
@@ -29,7 +29,7 @@ export default class User extends React.Component {
             email: '',
             role: '',
             projectList: [],
-            roleList:[],
+            roleList: [],
             userList: []
         };
 
@@ -38,36 +38,44 @@ export default class User extends React.Component {
 
     }
 
-    notify = (text) =>{
+    notify = (text) => {
         toast(text);
         debugger
-      }
+    }
 
-    componentDidMount(){
+    componentDidMount() {
+        if (localStorage.getItem("sessionUser")==null){
+            this.notify("Please login first");
+            setTimeout(() => {
+              this.props.history.push('/');
+            }, 2000);      
+          }
+        else{
         this.fetchProjects()
         this.fetchRoles()
         this.fetchUsers()
         this.connect()
+        }
     }
 
-    fetchUsers(){
-        axios.get("http://localhost:8080/users").then(res =>{
+    fetchUsers() {
+        axios.get("http://localhost:8080/users").then(res => {
             this.setState({
-                userList:res.data
+                userList: res.data
             })
         })
     }
 
-    fetchProjects(){
-        axios.get("http://localhost:8080/projects").then(res =>{
-            this.setState({projectList:res.data})
+    fetchProjects() {
+        axios.get("http://localhost:8080/projects").then(res => {
+            this.setState({ projectList: res.data })
         })
 
     }
 
-    fetchRoles(){
-        axios.get("http://localhost:8080/roles").then(res =>{
-            this.setState({roleList:res.data})
+    fetchRoles() {
+        axios.get("http://localhost:8080/roles").then(res => {
+            this.setState({ roleList: res.data })
         })
     }
 
@@ -111,7 +119,7 @@ export default class User extends React.Component {
         });
     }
 
-    handleSubmit (event) {
+    handleSubmit(event) {
         const userDto = {
             firstname: this.state.firstname,
             middleName: this.state.middleName,
@@ -125,7 +133,7 @@ export default class User extends React.Component {
                 console.log('User added successfully!')
                 this.fetchUsers();
                 this.notify('User added successfully');
-                this.setState( {
+                this.setState({
                     firstname: '',
                     middleName: '',
                     lastName: '',
@@ -135,16 +143,16 @@ export default class User extends React.Component {
                     userList: []
                 });
             })
-            
+
         event.preventDefault();
     };
 
     handleButtonClick = (state) => {
-    
+
         console.log(state.target.id);
-        this.props.history.push('/edit-roles/'+state.target.id)     
-    
-      };
+        this.props.history.push('/edit-roles/' + state.target.id)
+
+    };
 
 
 
@@ -152,12 +160,12 @@ export default class User extends React.Component {
         const data = this.state.userList;
         const columns = [
             {
-      
+
                 cell: (row) => <button onClick={this.handleButtonClick} id={row.id}>Edit</button>,
                 ignoreRowClick: true,
                 allowOverflow: true,
                 button: true,
-              },
+            },
             {
                 name: 'FirstName',
                 selector: 'firstname',
@@ -181,57 +189,57 @@ export default class User extends React.Component {
                 <AppBar color="primary" position="static">
                     <h1>User Management</h1>
                 </AppBar>
-                    <ToastContainer />
+                <ToastContainer />
 
-                    <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-          <Tab eventKey="home" title="Add new User">
-                    <form onSubmit={this.handleSubmit} >
-                        <div className="form-group">
-                            <label htmlFor="firstname">First Name: </label>
-                            <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="First Name" />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="middleName">Middle Name: </label>
-                            <input type="text" name="middleName" value={this.state.middleName} onChange={this.handleInputChange} className="form-control" id="middlenameInput" placeholder="Middle Name" />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="lastName">Last Name: </label>
-                            <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} className="form-control" id="lastnameInput" placeholder="Last Name" />
-                        </div>
+                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+                    <Tab eventKey="home" title="Add new User">
+                        <form onSubmit={this.handleSubmit} >
+                            <div className="form-group">
+                                <label htmlFor="firstname">First Name: </label>
+                                <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="First Name" />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="middleName">Middle Name: </label>
+                                <input type="text" name="middleName" value={this.state.middleName} onChange={this.handleInputChange} className="form-control" id="middlenameInput" placeholder="Middle Name" />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="lastName">Last Name: </label>
+                                <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} className="form-control" id="lastnameInput" placeholder="Last Name" />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="email">Email: </label>
-                            <input type="email" name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control" id="emailInput" placeholder="Email" />
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email: </label>
+                                <input type="email" name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control" id="emailInput" placeholder="Email" />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="role">Select Project: </label>
-                            <select id="project" name="project" onChange = {event => {this.setState({project:event.target.value})}}>
-                                {this.state.projectList.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
-                            </select>
-                       </div>
+                            <div className="form-group">
+                                <label htmlFor="role">Select Project: </label>
+                                <select id="project" name="project" onChange={event => { this.setState({ project: event.target.value }) }}>
+                                    {this.state.projectList.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                                </select>
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="role">Select Role: </label>
-                            <select id="role" name="role" onChange = {event => {this.setState({role:event.target.value})}}>
-                                {this.state.roleList.map((item) => <option key={item.id} value={item.id}>{item.description}</option>)}
-                            </select>
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="role">Select Role: </label>
+                                <select id="role" name="role" onChange={event => { this.setState({ role: event.target.value }) }}>
+                                    {this.state.roleList.map((item) => <option key={item.id} value={item.id}>{item.description}</option>)}
+                                </select>
+                            </div>
 
-                        <input type="submit" value="Submit" className="btn btn-primary" />
-                    </form>
+                            <input type="submit" value="Submit" className="btn btn-primary" />
+                        </form>
                     </Tab>
                     <Tab eventKey="profile" title="User List">
-                <DataTable
-                    title="List of Users"
-                    columns={columns}
-                    data={data}
-                />
-                </Tab>
+                        <DataTable
+                            title="List of Users"
+                            columns={columns}
+                            data={data}
+                        />
+                    </Tab>
                 </Tabs>
             </div>
 
 
-    )
+        )
     }
-    }
+}

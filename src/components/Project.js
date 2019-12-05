@@ -10,6 +10,10 @@ import {
   Button,
   TextField
 } from "@material-ui/core";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class Project extends React.Component {
 
@@ -32,8 +36,20 @@ export default class Project extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    notify = (text) => {
+      toast(text);
+      debugger
+  }
+
     componentDidMount(){
+      if (localStorage.getItem("sessionUser")==null){
+        this.notify("Please login first");
+        setTimeout(() => {
+          this.props.history.push('/');
+        }, 2000);      
+      }else{
       this.fetchProjects()
+      }
     }
 
     fetchProjects(){
@@ -65,6 +81,7 @@ export default class Project extends React.Component {
       axios.post('http://localhost:8080/projects', projectDto)
       .then(res => {
         console.log('Project added successfully!')
+        this.notify('Project added successfully!')
         this.fetchProjects()
         this.setState( {
           name: '',
@@ -102,10 +119,12 @@ const columns = [
       return (
         <div>
           <AppBar color="primary" position="static">
-          <h1>Issue Tracker</h1>
+          <h1>Project Management</h1>
         </AppBar>
-          <h3>Create Projects</h3>
-          <br/>
+        <ToastContainer />
+
+                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+                    <Tab eventKey="home" title="Add new Project">
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">
               <label for="nameImput">Project Name: </label>
@@ -121,12 +140,15 @@ const columns = [
             </div>
             <input type="submit" value="Submit" className="btn btn-primary" />
           </form>
-          
+          </Tab>
+          <Tab eventKey="profile" title="Project List">          
           <DataTable
     title="List of Projects"
     columns={columns}
     data={data}
     />
+    </Tab>
+    </Tabs>
         </div>
 
 

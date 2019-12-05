@@ -15,7 +15,8 @@ export default function RouterConfig() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/" component={Login} />
+                <Route exact path="/dashboard" component={Dashboard}/>
                 <Route path="/project" component={Project} />
                 <Route path="/issue" component={Issues} />
                 <Route path="/user" component={User} />

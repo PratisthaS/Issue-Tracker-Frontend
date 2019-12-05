@@ -29,7 +29,7 @@ export default function Login(props) {
         notify("Welcome!")
         console.log('User authenticated')
         localStorage.setItem('sessionUser',JSON.stringify(res.data))
-        props.history.push('/')
+        props.history.push('/dashboard')
       }).catch (error => {
           notify("Invalid credentials!")
       })

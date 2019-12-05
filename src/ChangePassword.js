@@ -6,19 +6,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ChangePassword(props) {
+
+    function notify(text){
+        toast(text);
+      }
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [newPassword,setNewPassword] = useState("");
-
-    var currentUserEmail = JSON.parse(localStorage.getItem('sessionUser')).email
 
     function validateForm() {
         return password.length > 0 && newPassword.length > 0;
     }
 
-    function notify(text){
-        toast(text);
-      }
+    
 
     function handleSubmit(event) {
         
@@ -31,13 +32,26 @@ export default function ChangePassword(props) {
         axios.post('http://localhost:8080/changePassword', data)
             .then(res => {
                 console.log('Password Changed')
-                props.history.push('/')
+                props.history.push('/dashboard')
 
             }).catch (error => {
             notify("Old password was incorrect! Password could not be changed")
         })
         event.preventDefault();
     }
+
+    if (localStorage.getItem("sessionUser")==null){
+        notify("Please login first");
+        setTimeout(() => {
+          props.history.push('/');
+        }, 2000);      
+    }else{
+    
+
+    var currentUserEmail = JSON.parse(localStorage.getItem('sessionUser')).email
+
+    
+}
 
     return (
         <div className="Login">
@@ -72,4 +86,5 @@ export default function ChangePassword(props) {
             </form>
         </div>
     );
+    
 }

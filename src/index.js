@@ -41,6 +41,9 @@ const routing = (
           <NavLink  id="linkHome" href="/login">Login</NavLink>
         </NavItem>
         <NavItem>
+          <NavLink href="/changePassword">Change Password</NavLink>
+        </NavItem>
+        <NavItem>
           <NavLink href="/socket">Socket</NavLink>
         </NavItem>
         </Nav>

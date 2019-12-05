@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard";
 import editRoles from "./components/editRoles";
 import WebSocketClient from "./components/WebSocketClient";
 import Login from "./Login";
+import changePassword from "./ChangePassword"
 
 export default function RouterConfig() {
     return (
@@ -22,6 +23,7 @@ export default function RouterConfig() {
                 <Route path="/edit-roles/:userId" component={editRoles} />
                 <Route path="/socket" component={WebSocketClient} />
                 <Route path="/login" component={Login} />
+                <Route path="/changePassword" component={changePassword} />
             </Switch>
         </BrowserRouter>
     );

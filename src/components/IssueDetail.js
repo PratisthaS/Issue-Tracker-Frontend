@@ -95,6 +95,7 @@ handleChange = (event)=> {
             console.log("Posted comments")
             this.setState({status: this.currentStatus})
             this.fetchComment()
+            this.setState({comment:''})
 
     })
     event.preventDefault()
@@ -142,9 +143,9 @@ handleChange = (event)=> {
     onFileDownloadClicked = (item) => {
 
         let currentId = item.target.id
+        debugger
 
         axios.get("http://localhost:8080/attach/comment/" + currentId).then (response=>{
-                debugger
                 var binaryString = window.atob(response.data);
                 var binaryLen = binaryString.length;
                 var bytes = new Uint8Array(binaryLen);
@@ -156,6 +157,7 @@ handleChange = (event)=> {
                 var blob = new Blob([bytes], {type: contentType});
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
+                debugger
                 var fileName = "ss";
                 link.download = fileName;
                 link.click();      
@@ -269,7 +271,7 @@ handleChange = (event)=> {
                     <form onSubmit={this.postComments}>
                     <label htmlFor="comment">Add Comment: </label>
                     <br/>
-                    <textarea name="comment" rows="4" cols="70" onChange={this.handleChange}></textarea>
+                    <textarea  name="comment" rows="4" cols="70" value={this.state.comment} onChange={this.handleChange}></textarea>
                     <br/>
                     <input type="file" onChange={this.onFileUploadChange} /> <br/>
                     <input type="submit" value="Submit" className="btn btn-primary" />

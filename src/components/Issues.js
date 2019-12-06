@@ -218,7 +218,7 @@ export default class Issues extends React.Component {
         </AppBar>
         <ToastContainer />
 
-        <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+        <Tabs defaultActiveKey="assignedToMe" id="uncontrolled-tab-example">
           <Tab eventKey="home" title="Add new Issue">
             <form onSubmit={this.handleSubmit} >
               <div className="form-group">

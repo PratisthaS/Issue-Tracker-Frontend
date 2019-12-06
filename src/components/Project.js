@@ -123,7 +123,7 @@ const columns = [
         </AppBar>
         <ToastContainer />
 
-                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+                <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
                     <Tab eventKey="home" title="Add new Project">
           <form onSubmit={this.handleSubmit} >
             <div className="form-group">

@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Login(props) {
+    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -35,6 +36,7 @@ export default function Login(props) {
       })
         event.preventDefault();
     }
+    
 
     return (
         <div className="Login">

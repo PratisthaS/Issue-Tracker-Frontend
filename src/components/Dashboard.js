@@ -18,13 +18,13 @@ export default class Dashboard extends React.Component {
     notify = (text) => {
         toast(text);
       }
-      
+
     componentDidMount(){
         if (localStorage.getItem("sessionUser")==null){
             this.notify("Please login first");
             setTimeout(() => {
               this.props.history.push('/');
-            }, 2000);      
+            }, 1000);      
           }
           else{
         this.fetchIssues()

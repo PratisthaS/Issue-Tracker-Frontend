@@ -5,6 +5,8 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import { FaPaperclip } from 'react-icons/fa';
 import "./Component.css";
 import AppBar from "@material-ui/core/AppBar/AppBar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class IssueDetail extends React.Component{
 
@@ -27,12 +29,14 @@ export default class IssueDetail extends React.Component{
           };
           this.currentStatus = "";
           this.currentAssignee = "";
-          this.issueStatusList = ["RESOLVED",
-            "OPEN",
+          this.issueStatusList = ["OPEN",
             "REOPENED",
             "IN_PROGRESS",
-            "WAITING"]
+            "WAITING",
+            "RESOLVED"]
     }
+
+    
 
     changeAssignee = (event)=>{
         const data = {
@@ -47,6 +51,10 @@ export default class IssueDetail extends React.Component{
     })
     event.preventDefault();
 }
+
+notify = (text) => {
+    toast(text);
+  }
 
 fetchComment(){
     axios.get("http://localhost:8080/issue/comment/" + this.state.issueId).then (response=>{
@@ -76,8 +84,12 @@ handleChange = (event)=> {
         }
         axios.post('http://localhost:8080/change-status', data)
         .then(res => {
+            
             console.log("Status changed")
             this.setState({status: this.currentStatus})
+    }).catch(error=>{
+        debugger
+        this.notify("Cannot Resolve issue! \n"+error.response.data)
     })
     event.preventDefault();
     }
@@ -173,6 +185,7 @@ handleChange = (event)=> {
             <AppBar color="primary" position="static">
                 <h1>Issue Detail Page</h1>
             </AppBar>
+            <ToastContainer />
             <Container>
                 <Row>
                     <Col>

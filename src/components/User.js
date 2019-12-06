@@ -43,7 +43,7 @@ export default class User extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem("sessionUser")==null){
+        if (false){
             this.notify("Please login first");
             setTimeout(() => {
               this.props.history.push('/');

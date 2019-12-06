@@ -75,7 +75,7 @@ export default class Issues extends React.Component {
   fetchIssues() {
     axios.get("http://localhost:8080/issues").then(res => {
       this.setState({
-        issueList: res.data
+        issueList: res.data.filter(item=>item.assignee!=null)
       })
       var myIssues = this.state.issueList.filter(item=>
         item.assignee.id==this.sessionUser.id)

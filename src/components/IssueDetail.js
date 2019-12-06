@@ -28,7 +28,7 @@ export default class IssueDetail extends React.Component{
           this.currentStatus = "";
           this.currentAssignee = "";
           this.issueStatusList = ["RESOLVED",
-            "NEW",
+            "OPEN",
             "REOPENED",
             "IN_PROGRESS",
             "WAITING"]

@@ -38,7 +38,7 @@ export default class IssueDetail extends React.Component{
         const data = {
             userId: this.currentAssignee,
             issueId: this.state.issueId,
-            sessionUserId: 1 //will need to set it from session
+            sessionUserId: JSON.parse(localStorage.getItem('sessionUser')).id
         }
         axios.post('http://localhost:8080/change-assignee', data)
         .then(res => {
@@ -72,7 +72,7 @@ handleChange = (event)=> {
         const data = {
             issueId: this.state.issueId,
             status: this.currentStatus,
-            sessionUserId: 1 //will need to set it from session
+            sessionUserId: JSON.parse(localStorage.getItem('sessionUser')).id
         }
         axios.post('http://localhost:8080/change-status', data)
         .then(res => {
@@ -88,7 +88,7 @@ handleChange = (event)=> {
 
         const data = new FormData();
         data.append('issueId',this.state.issueId)
-        data.append('userId',1)
+        data.append('userId',JSON.parse(localStorage.getItem('sessionUser')).id)
         data.append('comment', this.state.comment)
         data.append('attach',this.state.file)        
         axios.post('http://localhost:8080/comment', data)

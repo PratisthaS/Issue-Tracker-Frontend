@@ -65,7 +65,7 @@ export default function ChangePassword(props) {
 
 
                 <FormGroup controlId="password" bsSize="large">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Old Password</FormLabel>
                     <FormControl
                         value={password}
                         onChange={e => setPassword(e.target.value)}

@@ -40,7 +40,6 @@ export default class User extends React.Component {
 
     notify = (text) => {
         toast(text);
-        debugger
     }
 
     componentDidMount() {
@@ -85,6 +84,12 @@ export default class User extends React.Component {
         this.stompClient = Stomp.over(socket);
         let that = this;
         this.stompClient.connect({}, frame => {
+            this.stompClient.subscribe('/topic/stats', function (frame) {
+                debugger
+                let msg = "New User Added with email: "
+                msg = msg + frame.body
+                that.notify(msg)
+            })
         })
     }
 
@@ -104,7 +109,21 @@ export default class User extends React.Component {
             email: this.state.email,
             roleId: this.state.role
         };
+        debugger
         this.stompClient.send("/app/statistics", {}, JSON.stringify(userDto));
+        console.log('User added successfully!')
+            this.fetchUsers();
+                this.notify('User added successfully');
+                this.setState({
+                    firstname: '',
+                    middleName: '',
+                    lastName: '',
+                    project: '',
+                    email: '',
+                    role: '',
+                    userList: []
+                });
+        message.preventDefault();
     };
 
 
@@ -191,9 +210,9 @@ export default class User extends React.Component {
                 </AppBar>
                 <ToastContainer />
 
-                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+                <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
                     <Tab eventKey="home" title="Add new User">
-                        <form onSubmit={this.handleSubmit} >
+                        <form onSubmit={this.sendMessage} >
                             <div className="form-group">
                                 <label htmlFor="firstname">First Name: </label>
                                 <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleInputChange} className="form-control" id="nameInput" placeholder="First Name" />

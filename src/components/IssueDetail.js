@@ -85,7 +85,6 @@ handleChange = (event)=> {
 
     postComments = (event)=>{
 
-
         const data = new FormData();
         data.append('issueId',this.state.issueId)
         data.append('userId',JSON.parse(localStorage.getItem('sessionUser')).id)
@@ -122,8 +121,11 @@ handleChange = (event)=> {
                 assignee: res.data.assignee             
             })
             this.currentStatus = this.state.status
+            let projectId = res.data.project.id
             axios.get("http://localhost:8080/users/").then (response=>{
                 let tempUserList = response.data
+                tempUserList = tempUserList.filter(user=>user.projectsInvolved.includes(projectId))
+                debugger
                 //filter(user => user.id!=this.state.assignee.id)
                 this.setState({
                     userList: tempUserList
